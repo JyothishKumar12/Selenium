@@ -1,4 +1,4 @@
-package questions;
+package seleniumTestNG;
 
 import java.util.List;
 
@@ -8,29 +8,35 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
+import org.testng.annotations.AfterSuite;
+import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.Test;
 
 public class Selectable {
 
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 
+	private WebDriver driver;
+	@BeforeSuite
+	public void setUp() {
 		System.setProperty("webdriver.chrome.driver","./Drivers/chromedriver.exe");
-		WebDriver driver = new ChromeDriver();
+		driver = new ChromeDriver();
+
 		driver.manage().window().maximize();
-		driver.get("https://demo.automationtesting.in/Selectable.html");
-		
-	List<WebElement> selectable	= driver.findElements(By.xpath("//ul[@class='deaultFunc']/li"));
-	
-	System.out.println(selectable.size());
-	Actions slIST = new Actions(driver);
-	
-	slIST.keyDown(Keys.CONTROL).click(selectable.get(0)).click(selectable.get(1)).build().perform();
-	
-//	slIST.clickAndHold().click(selectable.get(0));
-//	slIST.clickAndHold().click(selectable.get(1));
-//	slIST.clickAndHold().click(selectable.get(2));
-//	slIST.build().perform();
-		
 	}
 
+	@AfterSuite()
+	public void tearDown() {
+				driver.close();
+	}
+
+	@Test
+	public void selectable() {
+		driver.get("https://letcode.in/selectable");
+
+		List<WebElement> sel = driver.findElements(By.xpath(" //*[@id ='container']/div"));
+		Actions builder = new Actions(driver);
+//		builder.keyDown(Keys.CONTROL).click(sel.get(0)).click(sel.get(1)).click(sel.get(2)).build().perform();
+		builder.clickAndHold().click(sel.get(4));
+		builder.clickAndHold().click(sel.get(5)).build().perform();;
+	}
 }
